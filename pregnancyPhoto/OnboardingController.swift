@@ -76,7 +76,6 @@ class OnboardingController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        AppConfiguration.shared.onboardingWasShown = true
         setupView()
         addData()
     }
@@ -353,6 +352,7 @@ class OnboardingController: UIViewController {
                     }
                     
                     DispatchQueue.main.async {
+                        AppConfiguration.shared.onboardingWasShown = true
                         self.picker.removeFromSuperview()
                         self.toolBar.removeFromSuperview()
                         self.startContentController()

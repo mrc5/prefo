@@ -35,8 +35,7 @@ class StartViewModel {
                 return
             }
             if success {
-                self.prefos[prefo.date]?.append(prefo)
-                self.viewDelegate?.showData()
+                self.setupData()
             }
         }
     }
@@ -48,18 +47,10 @@ class StartViewModel {
         self.prefos = groupedPrefos
     }
     
-    func getPrefoCount(_ section: Int) -> Int {
-        var count: Int?
-        
-        prefos.keys.forEach { (date) in
-            count = prefos[date]?.count
-        }
-        
-        return count ?? 0
-    }
-    
     func setupData() {
         getAlbumFor("prefo") { (collection) in
+            self.prefo.removeAll()
+            
             guard let album = collection else { return }
             let imageManager = PHCachingImageManager()
             let assetFetchResult = PHAsset.fetchAssets(in: album,
@@ -71,7 +62,8 @@ class StartViewModel {
                                            height: asset.pixelHeight)
                     /* For faster performance, and maybe degraded image */
                     let options = PHImageRequestOptions()
-                    options.deliveryMode = .highQualityFormat
+                    options.deliveryMode = .fastFormat
+                    options.isNetworkAccessAllowed = true
                     options.isSynchronous = true
                     
                     imageManager.requestImage(for: asset,
@@ -79,16 +71,21 @@ class StartViewModel {
                                               contentMode: .aspectFill,
                                               options: options,
                                               resultHandler: {
-                                                (image, _) -> Void in
+                                                (image, info) -> Void in
                                                 /* The image is now available to us */
-                                                guard let image = image,
-                                                    let creationDate = asset.creationDate else { return }
+                                                
+                                                guard let image = image else { return }
+                                                guard let creationDate = asset.creationDate else { return }
 
                                                 let prefo = Prefo(date: self.formatter.string(from: creationDate),
                                                                   image: image)
+
                                                 self.prefo.append(prefo)
                                                 self.groupData()
-                                                self.viewDelegate?.showData()
+                                                
+                                                DispatchQueue.main.async {
+                                                    self.viewDelegate?.showData()
+                                                }
                     })
                 })
             } else {
