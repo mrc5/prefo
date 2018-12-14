@@ -17,8 +17,8 @@ protocol StartViewDelegate: class {
 class StartViewModel {
     static let shared = StartViewModel()
 
-    var prefos = [String: [Prefo]]()
-    var prefo = [Prefo]()
+    var prefos = [(key: String, value: [Prefo])]()
+    private var prefo = [Prefo]()
     
     weak var viewDelegate: StartViewDelegate?
     
@@ -44,7 +44,7 @@ class StartViewModel {
         let groupedPrefos = Dictionary(grouping: prefo) { (element) -> String in
             return element.date
         }
-        self.prefos = groupedPrefos
+        prefos = groupedPrefos.sorted(by: {$0.key > $1.key })
     }
     
     func setupData() {
@@ -81,13 +81,13 @@ class StartViewModel {
                                                                   image: image)
 
                                                 self.prefo.append(prefo)
-                                                self.groupData()
-                                                
-                                                DispatchQueue.main.async {
-                                                    self.viewDelegate?.showData()
-                                                }
                     })
                 })
+                self.groupData()
+                
+                DispatchQueue.main.async {
+                    self.viewDelegate?.showData()
+                }
             } else {
                 self.viewDelegate?.showEmpty()
             }
@@ -131,13 +131,3 @@ class StartViewModel {
         }
     }
 }
-
-extension Dictionary {
-    subscript(i:Int) -> (key:Key,value:Value) {
-        get {
-            return self[index(startIndex, offsetBy: i)];
-        }
-    }
-}
-
-

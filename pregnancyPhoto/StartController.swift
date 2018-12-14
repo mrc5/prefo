@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class StartController: UIViewController {
     
@@ -59,12 +60,72 @@ class StartController: UIViewController {
         return label
     }()
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let ai = UIActivityIndicatorView()
+        ai.translatesAutoresizingMaskIntoConstraints = false
+        ai.hidesWhenStopped = true
+        ai.startAnimating()
+        ai.style = UIActivityIndicatorView.Style.whiteLarge
+        ai.color = AppConfiguration.shared.color
+        return ai
+    }()
+    
+    lazy var toolBar: UIToolbar = {
+        let toolBar = UIToolbar()
+        toolBar.translatesAutoresizingMaskIntoConstraints = false
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Fertig",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(doneButtonTapped))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                          target: nil,
+                                          action: nil)
+        let cancelButton = UIBarButtonItem(title: "Abbrechen",
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(cancelButtonTapped))
+        toolBar.setItems([cancelButton,
+                          spaceButton,
+                          doneButton],
+                         animated: false)
+        toolBar.isUserInteractionEnabled = true
+        return toolBar
+    }()
+    
+    lazy var coverView: UIView = {
+        let coverView = UIView()
+        coverView.translatesAutoresizingMaskIntoConstraints = false
+        coverView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        coverView.alpha = 0
+        return coverView
+    }()
+    
+    var contentView: UIView!
+
+    lazy var picker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        picker.isHidden = true
+        picker.datePickerMode = .dateAndTime
+        picker.backgroundColor = .white
+        picker.locale = Locale(identifier: "de")
+        picker.addTarget(self,
+                         action: #selector(datePickerValueChanged(_:)),
+                         for: .valueChanged)
+        return picker
+    }()
+    
     private let viewModel = StartViewModel.shared
+    private var pickerDate: Date?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
+        setupNotificationButton()
         viewModel.viewDelegate = self
     }
     
@@ -73,8 +134,12 @@ class StartController: UIViewController {
         viewModel.setupData()
     }
     
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        return .lightContent
+    private func setupNotificationButton() {
+        let barButton = UIBarButtonItem(image: UIImage(named: "notification"),
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(notificationButtonTapped))
+        navigationItem.rightBarButtonItem = barButton
     }
 
     private func setupView() {
@@ -89,6 +154,7 @@ class StartController: UIViewController {
         title = "prefo"
         view.addSubview(collectionView)
         view.addSubview(addPhotoButton)
+        view.addSubview(activityIndicator)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -99,7 +165,10 @@ class StartController: UIViewController {
             addPhotoButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             addPhotoButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             addPhotoButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32),
-            addPhotoButton.heightAnchor.constraint(equalToConstant: 44)
+            addPhotoButton.heightAnchor.constraint(equalToConstant: 44),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -121,7 +190,122 @@ class StartController: UIViewController {
         picker.delegate = self
         navigationController?.present(picker, animated: true, completion: nil)
     }
-
+    
+    @objc
+    func notificationButtonTapped() {
+        let center = UNUserNotificationCenter.current()
+//        center.removeAllPendingNotificationRequests()
+        
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate,
+            let window = delegate.window else { return }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePicker))
+        coverView.addGestureRecognizer(tapGesture)
+        window.addSubview(coverView)
+        
+        let targetY = window.frame.height - 250
+        
+        contentView = UIView(frame: CGRect(x: 0,
+                                               y: window.frame.height,
+                                               width: window.frame.width,
+                                               height: 250))
+        
+        contentView.layer.cornerRadius = 10
+        contentView.backgroundColor = .white
+        coverView.addSubview(contentView)
+        contentView.addSubview(picker)
+        
+        NSLayoutConstraint.activate([
+            coverView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+            coverView.topAnchor.constraint(equalTo: window.topAnchor),
+            coverView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+            coverView.bottomAnchor.constraint(equalTo: window.bottomAnchor),
+            
+            picker.heightAnchor.constraint(equalToConstant: 200),
+            picker.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            picker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            picker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.coverView.alpha = 1
+        }) { (_) in
+            UIView.animate(withDuration: 0.4, animations: {
+                self.contentView.frame = CGRect(x: 0,
+                                                y: targetY,
+                                                width: window.frame.width,
+                                                height: 250)
+                self.picker.isHidden = false
+            })
+        }
+    }
+    
+    @objc
+    func closePicker() {
+        UIView.animate(withDuration: 0.4, animations: {
+            self.contentView.frame = CGRect(x: 0,
+                                            y: UIScreen.main.bounds.height,
+                                            width: UIScreen.main.bounds.width,
+                                            height: 250)
+        }) { (_) in
+            UIView.animate(withDuration: 0.5, animations: {
+                self.coverView.alpha = 0
+                self.contentView.removeFromSuperview()
+                self.coverView.removeFromSuperview()
+                self.picker.removeFromSuperview()
+            })
+        }
+    }
+    
+    @objc
+    func datePickerValueChanged(_ sender: UIDatePicker) {
+        pickerDate = sender.date
+    }
+    
+    @objc
+    func doneButtonTapped() {
+        let center = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        
+        center.requestAuthorization(options: options) { (success, error) in
+            if let err = error {
+                print(err.localizedDescription)
+            }
+            
+            if success {
+                let content = UNMutableNotificationContent()
+                content.title = "Fototime 😍🤰"
+                content.body = "Es ist wieder soweit ein neues Fotos von deinem Bäuchlein zu machen."
+                content.sound = .default
+                
+                let date = self.pickerDate ?? Date()
+                
+                let triggerWeekly = Calendar.current.dateComponents([.weekday, .hour, .minute, .second,],
+                                                                    from: date)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerWeekly,
+                                                            repeats: true)
+                
+                let identifier = "PhotoNotification"
+                let request = UNNotificationRequest(identifier: identifier,
+                                                    content: content,
+                                                    trigger: trigger)
+                center.add(request, withCompletionHandler: { (error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.closePicker()
+                    }
+                })
+            }
+        }
+    }
+    
+    @objc
+    func cancelButtonTapped() {
+        closePicker()
+    }
 }
 
 extension StartController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -131,27 +315,20 @@ extension StartController: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let date = viewModel.prefos[section].key
-        guard let prefo = viewModel.prefos[date] else { return 0 }
-        return prefo.count
+        return viewModel.prefos[section].value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PrefoCell", for: indexPath) as! PrefoCell
-    
-        let date = viewModel.prefos[indexPath.section].key
-        guard let prefo = viewModel.prefos[date] else {
-            return UICollectionViewCell()
-        }
-        cell.setupWithImage(prefo[indexPath.item].image)
+        let prefo = viewModel.prefos[indexPath.section].value[indexPath.item]
+        cell.setupWithImage(prefo.image)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let imageZoom = ImageZoomController()
-        let date = viewModel.prefos[indexPath.section].key
-        guard let prefo = viewModel.prefos[date] else { return }
-        imageZoom.setupDetail(prefo[indexPath.item])
+        let prefo = viewModel.prefos[indexPath.section].value[indexPath.item]
+        imageZoom.setupDetail(prefo)
         navigationController?.pushViewController(imageZoom, animated: true)
     }
     
@@ -190,6 +367,7 @@ extension StartController: UIImagePickerControllerDelegate, UINavigationControll
 
 extension StartController: StartViewDelegate {
     func showData() {
+        activityIndicator.stopAnimating()
         emptyLabel.removeFromSuperview()
         collectionView.reloadData()
     }
