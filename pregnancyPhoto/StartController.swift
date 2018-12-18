@@ -70,37 +70,42 @@ class StartController: UIViewController {
         return ai
     }()
     
-    lazy var toolBar: UIToolbar = {
-        let toolBar = UIToolbar()
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = true
-        toolBar.sizeToFit()
-        let doneButton = UIBarButtonItem(title: "Fertig",
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(doneButtonTapped))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                          target: nil,
-                                          action: nil)
-        let cancelButton = UIBarButtonItem(title: "Abbrechen",
-                                           style: .plain,
-                                           target: self,
-                                           action: #selector(cancelButtonTapped))
-        toolBar.setItems([cancelButton,
-                          spaceButton,
-                          doneButton],
-                         animated: false)
-        toolBar.isUserInteractionEnabled = true
-        return toolBar
-    }()
-    
     lazy var coverView: UIView = {
         let coverView = UIView()
         coverView.translatesAutoresizingMaskIntoConstraints = false
         coverView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         coverView.alpha = 0
         return coverView
+    }()
+    
+    lazy var doneButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Fertig", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.gray, for: .highlighted)
+        button.backgroundColor = AppConfiguration.shared.color
+        button.layer.cornerRadius = 22
+        button.contentEdgeInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        button.addTarget(self,
+                         action: #selector(doneButtonTapped),
+                         for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var cancelButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Abbrechen", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.gray, for: .highlighted)
+        button.backgroundColor = AppConfiguration.shared.color
+        button.layer.cornerRadius = 22
+        button.contentEdgeInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        button.addTarget(self,
+                         action: #selector(cancelButtonTapped),
+                         for: .touchUpInside)
+        return button
     }()
     
     var contentView: UIView!
@@ -193,9 +198,6 @@ class StartController: UIViewController {
     
     @objc
     func notificationButtonTapped() {
-        let center = UNUserNotificationCenter.current()
-//        center.removeAllPendingNotificationRequests()
-        
         guard let delegate = UIApplication.shared.delegate as? AppDelegate,
             let window = delegate.window else { return }
         
@@ -203,17 +205,19 @@ class StartController: UIViewController {
         coverView.addGestureRecognizer(tapGesture)
         window.addSubview(coverView)
         
-        let targetY = window.frame.height - 250
+        let targetY = window.frame.height - 274
         
         contentView = UIView(frame: CGRect(x: 0,
                                                y: window.frame.height,
                                                width: window.frame.width,
-                                               height: 250))
+                                               height: 274))
         
         contentView.layer.cornerRadius = 10
         contentView.backgroundColor = .white
         coverView.addSubview(contentView)
         contentView.addSubview(picker)
+        contentView.addSubview(doneButton)
+        contentView.addSubview(cancelButton)
         
         NSLayoutConstraint.activate([
             coverView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
@@ -222,19 +226,27 @@ class StartController: UIViewController {
             coverView.bottomAnchor.constraint(equalTo: window.bottomAnchor),
             
             picker.heightAnchor.constraint(equalToConstant: 200),
-            picker.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            picker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
             picker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            picker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            picker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            doneButton.heightAnchor.constraint(equalToConstant: 44),
+            doneButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            doneButton.bottomAnchor.constraint(equalTo: picker.topAnchor, constant: 8),
+            
+            cancelButton.heightAnchor.constraint(equalToConstant: 44),
+            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            cancelButton.bottomAnchor.constraint(equalTo: picker.topAnchor, constant: 8)
         ])
         
-        UIView.animate(withDuration: 0.4, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
             self.coverView.alpha = 1
         }) { (_) in
-            UIView.animate(withDuration: 0.4, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.contentView.frame = CGRect(x: 0,
                                                 y: targetY,
                                                 width: window.frame.width,
-                                                height: 250)
+                                                height: 274)
                 self.picker.isHidden = false
             })
         }
@@ -242,14 +254,15 @@ class StartController: UIViewController {
     
     @objc
     func closePicker() {
-        UIView.animate(withDuration: 0.4, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
             self.contentView.frame = CGRect(x: 0,
                                             y: UIScreen.main.bounds.height,
                                             width: UIScreen.main.bounds.width,
-                                            height: 250)
+                                            height: 274)
         }) { (_) in
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.2, animations: {
                 self.coverView.alpha = 0
+            }, completion: { (_) in
                 self.contentView.removeFromSuperview()
                 self.coverView.removeFromSuperview()
                 self.picker.removeFromSuperview()
@@ -265,6 +278,8 @@ class StartController: UIViewController {
     @objc
     func doneButtonTapped() {
         let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+        
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         
         center.requestAuthorization(options: options) { (success, error) in
@@ -275,7 +290,7 @@ class StartController: UIViewController {
             if success {
                 let content = UNMutableNotificationContent()
                 content.title = "Fototime 😍🤰"
-                content.body = "Es ist wieder soweit ein neues Fotos von deinem Bäuchlein zu machen."
+                content.body = "Es ist wieder soweit ein neues Foto von deinem Bäuchlein zu machen."
                 content.sound = .default
                 
                 let date = self.pickerDate ?? Date()
