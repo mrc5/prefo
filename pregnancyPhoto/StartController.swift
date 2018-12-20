@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Lottie
 import UserNotifications
 
 class StartController: UIViewController {
@@ -123,6 +124,12 @@ class StartController: UIViewController {
         return picker
     }()
     
+    lazy var successAnimationView: LOTAnimationView = {
+        let animationView = LOTAnimationView(name: "success")
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        return animationView
+    }()
+    
     private let viewModel = StartViewModel.shared
     private var pickerDate: Date?
 
@@ -160,6 +167,7 @@ class StartController: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(addPhotoButton)
         view.addSubview(activityIndicator)
+        coverView.addSubview(successAnimationView)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -173,7 +181,12 @@ class StartController: UIViewController {
             addPhotoButton.heightAnchor.constraint(equalToConstant: 44),
             
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            successAnimationView.centerXAnchor.constraint(equalTo: coverView.centerXAnchor),
+            successAnimationView.centerYAnchor.constraint(equalTo: coverView.centerYAnchor),
+            successAnimationView.widthAnchor.constraint(equalToConstant: 200),
+            successAnimationView.heightAnchor.constraint(equalToConstant: 200)
         ])
     }
     
@@ -253,6 +266,20 @@ class StartController: UIViewController {
     }
     
     @objc
+    func animateSuccess(_ completion: @escaping () -> Void) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.contentView.frame = CGRect(x: 0,
+                                            y: UIScreen.main.bounds.height,
+                                            width: UIScreen.main.bounds.width,
+                                            height: 274)
+        }) { (_) in
+            self.picker.removeFromSuperview()
+            self.contentView.removeFromSuperview()
+            completion()
+        }
+    }
+    
+    @objc
     func closePicker() {
         UIView.animate(withDuration: 0.2, animations: {
             self.contentView.frame = CGRect(x: 0,
@@ -263,12 +290,13 @@ class StartController: UIViewController {
             UIView.animate(withDuration: 0.2, animations: {
                 self.coverView.alpha = 0
             }, completion: { (_) in
+                self.picker.removeFromSuperview()
                 self.contentView.removeFromSuperview()
                 self.coverView.removeFromSuperview()
-                self.picker.removeFromSuperview()
             })
         }
     }
+    
     
     @objc
     func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -310,7 +338,16 @@ class StartController: UIViewController {
                     }
                     
                     DispatchQueue.main.async {
-                        self.closePicker()
+                        self.animateSuccess {
+                            self.successAnimationView.play(completion: { (_) in
+                                self.successAnimationView.stop()
+                                UIView.animate(withDuration: 0.2, animations: {
+                                    self.coverView.alpha = 0
+                                }, completion: { (_) in
+                                    self.coverView.removeFromSuperview()
+                                })
+                            })
+                        }
                     }
                 })
             }
