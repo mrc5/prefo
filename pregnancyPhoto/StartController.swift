@@ -339,6 +339,7 @@ class StartController: UIViewController {
                     
                     DispatchQueue.main.async {
                         self.animateSuccess {
+                            UINotificationFeedbackGenerator().notificationOccurred(.success)
                             self.successAnimationView.play(completion: { (_) in
                                 self.successAnimationView.stop()
                                 UIView.animate(withDuration: 0.2, animations: {
