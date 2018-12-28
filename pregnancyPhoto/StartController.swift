@@ -8,6 +8,7 @@
 
 import UIKit
 import Lottie
+import Photos
 import UserNotifications
 
 class StartController: UIViewController {
@@ -54,6 +55,17 @@ class StartController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Du hast noch kein Foto gespeichert. Füge jetzt eines hinzu."
+        label.textColor = .lightGray
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 22)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    lazy var restrictedLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Du hast prefo nicht erlaubt auf deine Fotos zuzugreifen."
         label.textColor = .lightGray
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 22)
@@ -143,7 +155,31 @@ class StartController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        checkForAuthorization()
         viewModel.setupData()
+    }
+    
+    private func checkForAuthorization() {
+        PHPhotoLibrary.requestAuthorization { (status) in
+            switch status {
+            case .authorized:
+                break
+            case .restricted, .denied, .notDetermined:
+                let title = "Fehler"
+                let message = "Du hast prefo nicht erlaubt auf dein Fotoalbum zuzugreifen. Um Fotos aufnehmen und speichern zu können benötigen wir allerdings Zugriff benötigt. Bitte passe das in den Datenschutzeinstellungen deines iPhones an, um prefo zu nutzen."
+                let alert = UIAlertController(title: title,
+                                              message: message,
+                                              preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                alert.addAction(alertAction)
+                
+                DispatchQueue.main.async {
+                    self.present(alert,
+                                 animated: true,
+                                 completion: nil)
+                }
+            }
+        }
     }
     
     private func setupNotificationButton() {
@@ -198,6 +234,17 @@ class StartController: UIViewController {
             emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             emptyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             emptyLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
+    }
+    
+    private func setupRescricted() {
+        view.addSubview(restrictedLabel)
+        
+        NSLayoutConstraint.activate([
+            restrictedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            restrictedLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            restrictedLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            restrictedLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
         ])
     }
     
@@ -419,12 +466,26 @@ extension StartController: UIImagePickerControllerDelegate, UINavigationControll
 }
 
 extension StartController: StartViewDelegate {
+    func showRestricted() {
+        activityIndicator.stopAnimating()
+        emptyLabel.removeFromSuperview()
+        
+        DispatchQueue.main.async {
+            self.setupRescricted()
+        }
+    }
+    
     func showData() {
         activityIndicator.stopAnimating()
         emptyLabel.removeFromSuperview()
+        restrictedLabel.removeFromSuperview()
         collectionView.reloadData()
     }
+    
     func showEmpty() {
+        activityIndicator.stopAnimating()
+        restrictedLabel.removeFromSuperview()
+        
         DispatchQueue.main.async {
             self.setupEmpty()
         }

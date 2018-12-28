@@ -12,6 +12,7 @@ import Photos
 protocol StartViewDelegate: class {
     func showData()
     func showEmpty()
+    func showRestricted()
 }
 
 class StartViewModel {
@@ -51,7 +52,11 @@ class StartViewModel {
         getAlbumFor("prefo") { (collection) in
             self.prefo.removeAll()
             
-            guard let album = collection else { return }
+            guard let album = collection else {
+                // collection is nil, because the access to PhotoLib is undefined, denied or restricted
+                self.viewDelegate?.showRestricted()
+                return
+            }
             let imageManager = PHCachingImageManager()
             let assetFetchResult = PHAsset.fetchAssets(in: album,
                                                        options: nil)
@@ -105,9 +110,7 @@ class StartViewModel {
                 if let album = collections.firstObject {
                     completionHandler(album)
                 } else {
-                    //                self?.createAlbum(withTitle: title, completionHandler: { (album) in
-                    //                    completionHandler(album)
-                    //                })
+                    completionHandler(nil)
                 }
             }
         }
