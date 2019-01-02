@@ -7,14 +7,13 @@
 */
 
 "OnboardingController:Welcome" = "Welcome to prefo. With this app, you can document your pregnancy with simple snapshots.";
-
-"Picker:DoneButtonTitle" = "Done";
-"Picker:CancelButtonTitle" = "Cancel";
-
 "OnboardingController:PhotoAuthorization" = "To be able to save your pictures you will need access to your photo album.";
 "OnboardingController:CreateAlbumButtonTitle" = "Create album";
 "OnboardingController:NotificationAuthorization" = "The created reminder will be repeated weekly according to your set time.";
 "OnboardingController:CreateNotificationButtonTitle" = "Create reminder";
+
+"Picker:DoneButtonTitle" = "Done";
+"Picker:CancelButtonTitle" = "Cancel";
 
 "Error:CreateAlbumAlertTitle" = "Error";
 "Error:CreateAlbumAlertMessage" = "You did not allow prefo to use your photo album. Please give the permission and return here..";
