@@ -364,8 +364,8 @@ class StartController: UIViewController {
             
             if success {
                 let content = UNMutableNotificationContent()
-                content.title = "Fototime 😍🤰"
-                content.body = "Es ist wieder soweit ein neues Foto von deinem Bäuchlein zu machen."
+                content.title = NSLocalizedString("Notification:Title", comment: "NotificationTitle")
+                content.body = NSLocalizedString("Notification:Body", comment: "NotificationBody")
                 content.sound = .default
                 
                 let date = self.pickerDate ?? Date()
@@ -452,7 +452,6 @@ extension StartController: UICollectionViewDelegate, UICollectionViewDataSource 
 
 extension StartController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true)
         
         guard let image = info[.originalImage] as? UIImage else {
             print("No image found")
@@ -462,6 +461,8 @@ extension StartController: UIImagePickerControllerDelegate, UINavigationControll
         let dateStr = viewModel.formatter.string(from: Date())
         let prefo = Prefo(date: dateStr, image: image)
         viewModel.add(prefo)
+
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 

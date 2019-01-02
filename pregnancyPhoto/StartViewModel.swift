@@ -133,4 +133,8 @@ class StartViewModel {
             }
         }
     }
+    
+    private func getAssetFor(_ photo: UIImage) {
+        
+    }
 }

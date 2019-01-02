@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  pregnancyPhoto
+
+  Created by Marcus on 31.12.18.
+  Copyright © 2018 Marcus Hopp. All rights reserved.
+*/
+
+"OnboardingController:Welcome" = "Welcome to prefo. With this app, you can document your pregnancy with simple snapshots.";
+
+"Picker:DoneButtonTitle" = "Done";
+"Picker:CancelButtonTitle" = "Cancel";
+
+"OnboardingController:PhotoAuthorization" = "To be able to save your pictures you will need access to your photo album.";
+"OnboardingController:CreateAlbumButtonTitle" = "Create album";
+"OnboardingController:NotificationAuthorization" = "The created reminder will be repeated weekly according to your set time.";
+"OnboardingController:CreateNotificationButtonTitle" = "Create reminder";
+
+"Error:CreateAlbumAlertTitle" = "Error";
+"Error:CreateAlbumAlertMessage" = "You did not allow prefo to use your photo album. Please give the permission and return here..";
+"Error:CreateAlbumAlertOKButtonTitle" = "Ok";
+
+"Notification:Title" = "Fototime 😍🤰";
+"Notification:Body" = "It's time to take another picture of your tummy";

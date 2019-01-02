@@ -32,41 +32,57 @@ class OnboardingController: UIViewController {
         return pageControl
     }()
     
+    lazy var coverView: UIView = {
+        let coverView = UIView()
+        coverView.translatesAutoresizingMaskIntoConstraints = false
+        coverView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        coverView.alpha = 0
+        return coverView
+    }()
+    
+    lazy var doneButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(NSLocalizedString("Picker:DoneButtonTitle", comment: "Done"), for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.gray, for: .highlighted)
+        button.backgroundColor = AppConfiguration.shared.color
+        button.layer.cornerRadius = 22
+        button.contentEdgeInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        button.addTarget(self,
+                         action: #selector(doneButtonTapped),
+                         for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var cancelButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(NSLocalizedString("Picker:CancelButtonTitle", comment: "Cancel"), for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.gray, for: .highlighted)
+        button.backgroundColor = AppConfiguration.shared.color
+        button.layer.cornerRadius = 22
+        button.contentEdgeInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        button.addTarget(self,
+                         action: #selector(cancelButtonTapped),
+                         for: .touchUpInside)
+        return button
+    }()
+    
+    var contentView: UIView!
+    
     lazy var picker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.translatesAutoresizingMaskIntoConstraints = false
+        picker.isHidden = true
         picker.datePickerMode = .dateAndTime
         picker.backgroundColor = .white
-        picker.locale = Locale(identifier: "de")
+        picker.locale = Locale.current
         picker.addTarget(self,
                          action: #selector(datePickerValueChanged(_:)),
                          for: .valueChanged)
         return picker
-    }()
-    
-    lazy var toolBar: UIToolbar = {
-        let toolBar = UIToolbar()
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = true
-        toolBar.sizeToFit()
-        let doneButton = UIBarButtonItem(title: "Fertig",
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(doneButtonTapped))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                          target: nil,
-                                          action: nil)
-        let cancelButton = UIBarButtonItem(title: "Abbrechen",
-                                           style: .plain,
-                                           target: self,
-                                           action: #selector(cancelButtonTapped))
-        toolBar.setItems([cancelButton,
-                          spaceButton,
-                          doneButton],
-                         animated: false)
-        toolBar.isUserInteractionEnabled = true
-        return toolBar
     }()
     
     private var pickerDate: Date?
@@ -118,7 +134,7 @@ class OnboardingController: UIViewController {
             case 0:
                 let label = CustomTextLabel().returnLabel()
                 label.translatesAutoresizingMaskIntoConstraints = false
-                label.text = "Willkommen bei prefo. Mit dieser App kannst du deine Schwangerschaft mit einfachen Schnappschüssen dokumentieren."
+                label.text = NSLocalizedString("OnboardingController:Welcome", comment: "Welcome")
                 views[i].addSubview(label)
                 
                 NSLayoutConstraint.activate([
@@ -130,7 +146,7 @@ class OnboardingController: UIViewController {
             case 1:
                 let label = CustomTextLabel().returnLabel()
                 label.translatesAutoresizingMaskIntoConstraints = false
-                label.text = "Um deine Bilder speichern zu können benötigen wird Zugriff auf dein Fotoalbum."
+                label.text = NSLocalizedString("OnboardingController:PhotoAuthorization", comment: "PhotoAuthorization")
                 views[i].addSubview(label)
                 
                 let image = UIImageView(image: UIImage(named: "photo_lib")?.withRenderingMode(.alwaysTemplate))
@@ -140,7 +156,7 @@ class OnboardingController: UIViewController {
                 
                 let button = UIButton()
                 button.translatesAutoresizingMaskIntoConstraints = false
-                button.setTitle("Album anlegen", for: .normal)
+                button.setTitle(NSLocalizedString("OnboardingController:CreateAlbumButtonTitle", comment: "CreateAlbum"), for: .normal)
                 button.backgroundColor = AppConfiguration.shared.color
                 button.setTitleColor(.white, for: .normal)
                 button.setTitleColor(.darkGray, for: .highlighted)
@@ -170,7 +186,7 @@ class OnboardingController: UIViewController {
             case 2:
                 let label = CustomTextLabel().returnLabel()
                 label.translatesAutoresizingMaskIntoConstraints = false
-                label.text = "Am einfachsten erstellst du einfach jede Woche um die gleiche Zeit eine Erinnerung."
+                label.text = NSLocalizedString("OnboardingController:NotificationAuthorization", comment: "NotificationAuthorization")
                 views[i].addSubview(label)
                 
                 let image = UIImageView(image: UIImage(named: "event")?.withRenderingMode(.alwaysTemplate))
@@ -180,7 +196,7 @@ class OnboardingController: UIViewController {
                 
                 let button = UIButton()
                 button.translatesAutoresizingMaskIntoConstraints = false
-                button.setTitle("Erinnerung anlegen", for: .normal)
+                button.setTitle(NSLocalizedString("OnboardingController:CreateNotificationButtonTitle", comment: "CreateNotification"), for: .normal)
                 button.backgroundColor = AppConfiguration.shared.color
                 button.setTitleColor(.white, for: .normal)
                 button.setTitleColor(.darkGray, for: .highlighted)
@@ -220,12 +236,12 @@ class OnboardingController: UIViewController {
             case .authorized:
                 self.createPhotoLibraryAlbum("prefo")
             case .denied:
-                let title = "Fehler"
-                let message = "Du hast prefo nicht gestattet dein Fotoalbum zu nutzen. Bitte gibt die erlaubnis und kehre hierher zurück."
+                let title = NSLocalizedString("Error:CreateAlbumAlertTitle", comment: "Error")
+                let message = NSLocalizedString("Error:CreateAlbumAlertMessage", comment: "NoAuthorization")
                 let alert = UIAlertController(title: title,
                                               message: message,
                                               preferredStyle: .alert)
-                let action = UIAlertAction(title: "Ok",
+                let action = UIAlertAction(title: NSLocalizedString("Error:CreateAlbumAlertOKButtonTitle", comment: "OkButtonTitle"),
                                            style: .default,
                                            handler: nil)
                 alert.addAction(action)
@@ -274,12 +290,10 @@ class OnboardingController: UIViewController {
                     }
                     
                     let fetchResult = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [placeholder.localIdentifier], options: nil)
-                    guard let album: PHAssetCollection = fetchResult.firstObject else {
+                    guard (fetchResult.firstObject != nil) else {
                         // FetchResult has no PHAssetCollection
                         return
                     }
-                    // Saved successfully!
-                    print(album.assetCollectionType)
                     
                     DispatchQueue.main.async {
                         self.scrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.width * 2,
@@ -302,41 +316,25 @@ class OnboardingController: UIViewController {
     }
     
     @objc
-    private func addNotificationTapped() {
-        view.addSubview(picker)
-        view.addSubview(toolBar)
-        
-        NSLayoutConstraint.activate([
-            picker.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
-            picker.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            picker.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            picker.heightAnchor.constraint(equalToConstant: 200),
-            
-            toolBar.bottomAnchor.constraint(equalTo: picker.topAnchor),
-            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            toolBar.heightAnchor.constraint(equalToConstant: 44)
-        ])
-    }
-    
-    @objc
     func doneButtonTapped() {
         let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+        
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         
         center.requestAuthorization(options: options) { (success, error) in
             if let err = error {
                 print(err.localizedDescription)
             }
-        
+            
             if success {
                 let content = UNMutableNotificationContent()
-                content.title = "Fototime 😍🤰"
-                content.body = "Es ist wieder soweit ein neues Fotos von deinem Bäuchlein zu machen."
+                content.title = NSLocalizedString("Notification:Title", comment: "NotificationTitle")
+                content.body = NSLocalizedString("Notification:Body", comment: "NotificationBody")
                 content.sound = .default
                 
                 let date = self.pickerDate ?? Date()
-            
+                
                 let triggerWeekly = Calendar.current.dateComponents([.weekday, .hour, .minute, .second,],
                                                                     from: date)
                 let trigger = UNCalendarNotificationTrigger(dateMatching: triggerWeekly,
@@ -352,13 +350,97 @@ class OnboardingController: UIViewController {
                     }
                     
                     DispatchQueue.main.async {
-                        AppConfiguration.shared.onboardingWasShown = true
-                        self.picker.removeFromSuperview()
-                        self.toolBar.removeFromSuperview()
-                        self.startContentController()
+                        UINotificationFeedbackGenerator().notificationOccurred(.success)
+                        UIView.animate(withDuration: 0.2, animations: {
+                            self.coverView.alpha = 0
+                        }, completion: { (_) in
+                            self.closePicker()
+                            AppConfiguration.shared.onboardingWasShown = true
+                            self.startContentController()
+                        })
                     }
                 })
             }
+        }
+    }
+    
+    @objc
+    func cancelButtonTapped() {
+        closePicker()
+    }
+    
+    @objc
+    private func addNotificationTapped() {
+        
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate,
+            let window = delegate.window else { return }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePicker))
+        coverView.addGestureRecognizer(tapGesture)
+        window.addSubview(coverView)
+        
+        let targetY = window.frame.height - 274
+        
+        contentView = UIView(frame: CGRect(x: 0,
+                                           y: window.frame.height,
+                                           width: window.frame.width,
+                                           height: 274))
+        
+        contentView.layer.cornerRadius = 10
+        contentView.backgroundColor = .white
+        coverView.addSubview(contentView)
+        contentView.addSubview(picker)
+        contentView.addSubview(doneButton)
+        contentView.addSubview(cancelButton)
+        
+        NSLayoutConstraint.activate([
+            coverView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+            coverView.topAnchor.constraint(equalTo: window.topAnchor),
+            coverView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+            coverView.bottomAnchor.constraint(equalTo: window.bottomAnchor),
+            
+            picker.heightAnchor.constraint(equalToConstant: 200),
+            picker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            picker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            picker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            doneButton.heightAnchor.constraint(equalToConstant: 44),
+            doneButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            doneButton.bottomAnchor.constraint(equalTo: picker.topAnchor, constant: 8),
+            
+            cancelButton.heightAnchor.constraint(equalToConstant: 44),
+            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            cancelButton.bottomAnchor.constraint(equalTo: picker.topAnchor, constant: 8)
+            ])
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.coverView.alpha = 1
+        }) { (_) in
+            UIView.animate(withDuration: 0.3, animations: {
+                self.contentView.frame = CGRect(x: 0,
+                                                y: targetY,
+                                                width: window.frame.width,
+                                                height: 274)
+                self.picker.isHidden = false
+            })
+        }
+    }
+    
+    @objc
+    func closePicker() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.contentView.frame = CGRect(x: 0,
+                                            y: UIScreen.main.bounds.height,
+                                            width: UIScreen.main.bounds.width,
+                                            height: 274)
+        }) { (_) in
+            UIView.animate(withDuration: 0.2, animations: {
+                self.coverView.alpha = 0
+            }, completion: { (_) in
+                self.picker.removeFromSuperview()
+                self.contentView.removeFromSuperview()
+                self.coverView.removeFromSuperview()
+            })
         }
     }
     
@@ -373,12 +455,6 @@ class OnboardingController: UIViewController {
         
         window.rootViewController = UINavigationController(rootViewController: StartController())
         window.makeKeyAndVisible()
-    }
-    
-    @objc
-    func cancelButtonTapped() {
-        picker.removeFromSuperview()
-        toolBar.removeFromSuperview()
     }
 }
 
