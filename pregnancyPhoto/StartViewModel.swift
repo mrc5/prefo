@@ -45,12 +45,15 @@ class StartViewModel {
         let groupedPrefos = Dictionary(grouping: prefo) { (element) -> String in
             return element.date
         }
-        prefos = groupedPrefos.sorted(by: {$0.key > $1.key })
+        prefos = groupedPrefos.sorted(by: {
+            formatter.date(from: $0.key)! > formatter.date(from: $1.key)!
+        })
     }
     
     func setupData() {
         getAlbumFor("prefo") { (collection) in
             self.prefo.removeAll()
+            self.prefos.removeAll()
             
             guard let album = collection else {
                 // collection is nil, because the access to PhotoLib is undefined, denied or restricted
@@ -88,8 +91,8 @@ class StartViewModel {
                                                 self.prefo.append(prefo)
                     })
                 })
-                self.groupData()
                 
+                self.groupData()
                 DispatchQueue.main.async {
                     self.viewDelegate?.showData()
                 }
