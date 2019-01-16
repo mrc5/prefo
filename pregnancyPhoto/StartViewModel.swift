@@ -42,7 +42,8 @@ class StartViewModel {
     }
     
     func groupData() {
-        let groupedPrefos = Dictionary(grouping: prefo) { (element) -> String in
+        let groupedPrefos = Dictionary(grouping: prefo) {
+            (element) -> String in
             return element.date
         }
         prefos = groupedPrefos.sorted(by: {
