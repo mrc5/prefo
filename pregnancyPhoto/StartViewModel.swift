@@ -47,7 +47,7 @@ class StartViewModel {
             return element.date
         }
         prefos = groupedPrefos.sorted(by: {
-            formatter.date(from: $0.key)! > formatter.date(from: $1.key)!
+            formatter.date(from: $0.key) ?? Date() > formatter.date(from: $1.key) ?? Date()
         })
     }
     
