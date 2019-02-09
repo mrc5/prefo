@@ -149,7 +149,6 @@ class StartController: UIViewController {
         super.viewDidLoad()
         
         setupView()
-        setupNotificationButton()
         viewModel.viewDelegate = self
     }
     
@@ -182,12 +181,67 @@ class StartController: UIViewController {
         }
     }
     
-    private func setupNotificationButton() {
-        let barButton = UIBarButtonItem(image: UIImage(named: "notification"),
+    private func resetBarButtons() {
+        let notificationBarButton = UIBarButtonItem(image: UIImage(named: "notification"),
                                         style: .plain,
                                         target: self,
                                         action: #selector(notificationButtonTapped))
-        navigationItem.rightBarButtonItem = barButton
+        let playBarButton = UIBarButtonItem(image: UIImage(named: "play"),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(composeGifAndPlay))
+        navigationItem.rightBarButtonItems = viewModel.prefos.count > 0 ? [notificationBarButton, playBarButton] : [notificationBarButton]
+    }
+    
+    @objc
+    private func composeGifAndPlay() {
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate,
+            let window = delegate.window,
+            let navbarHeight = navigationController?.navigationBar.frame.height else { return }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePicker))
+        coverView.addGestureRecognizer(tapGesture)
+        window.addSubview(coverView)
+        
+        let contentHeight = UIScreen.main.bounds.height - navbarHeight - UIApplication.shared.statusBarFrame.height - 16
+        
+        let targetY = window.frame.height - contentHeight
+        
+        contentView = UIView(frame: CGRect(x: 0,
+                                           y: window.frame.height,
+                                           width: window.frame.width,
+                                           height: contentHeight))
+        
+        contentView.layer.cornerRadius = 10
+        contentView.backgroundColor = .white
+        coverView.addSubview(contentView)
+        
+        let gifView = GifView()
+        gifView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(gifView)
+        
+        NSLayoutConstraint.activate([
+            coverView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+            coverView.topAnchor.constraint(equalTo: window.topAnchor),
+            coverView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+            coverView.bottomAnchor.constraint(equalTo: window.bottomAnchor),
+            
+            gifView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            gifView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 32),
+            gifView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            gifView.bottomAnchor.constraint(equalTo: window.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.coverView.alpha = 1
+        }) { (_) in
+            UIView.animate(withDuration: 0.3, animations: {
+                self.contentView.frame = CGRect(x: 0,
+                                                y: targetY,
+                                                width: window.frame.width,
+                                                height: contentHeight)
+            })
+        }
     }
 
     private func setupView() {
@@ -198,6 +252,7 @@ class StartController: UIViewController {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
         navigationController?.navigationBar.titleTextAttributes = textAttributes
+        navigationItem.noBackButtonTitle()
         
         title = "prefo"
         view.addSubview(collectionView)
@@ -481,6 +536,7 @@ extension StartController: StartViewDelegate {
         emptyLabel.removeFromSuperview()
         restrictedLabel.removeFromSuperview()
         collectionView.reloadData()
+        resetBarButtons()
     }
     
     func showEmpty() {
