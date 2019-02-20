@@ -10,6 +10,7 @@ import UIKit
 import Photos
 
 protocol StartViewDelegate: class {
+    func showLoading()
     func showData()
     func showEmpty()
     func showRestricted()
@@ -30,13 +31,16 @@ class StartViewModel {
     }()
     
     func add(_ prefo: Prefo) {
-        save(photo: prefo.image, toAlbum: "prefo") { (success, error) in
+        viewDelegate?.showLoading()
+        
+        save(photo: prefo.image, toAlbum: "prefo") {
+            [weak self] (success, error) in
             if let err = error {
                 print(err.localizedDescription)
                 return
             }
             if success {
-                self.setupData()
+                self?.setupData()
             }
         }
     }
@@ -74,7 +78,7 @@ class StartViewModel {
                     options.deliveryMode = .fastFormat
                     options.isNetworkAccessAllowed = true
                     options.isSynchronous = true
-                    
+
                     imageManager.requestImage(for: asset,
                                               targetSize: imageSize,
                                               contentMode: .aspectFill,
@@ -103,13 +107,14 @@ class StartViewModel {
         }
     }
     
-    func getAlbumFor(_ title: String, completionHandler: @escaping (PHAssetCollection?) -> ()) {
-        DispatchQueue.global(qos: .background).async { 
+    func getAlbumFor(_ title: String,
+                     completionHandler: @escaping (PHAssetCollection?) -> ()) {
+        DispatchQueue.global(qos: .default).async { 
             let fetchOptions = PHFetchOptions()
             fetchOptions.predicate = NSPredicate(format: "title = %@", title)
-            let collections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
-            
-            
+            let collections = PHAssetCollection.fetchAssetCollections(with: .album,
+                                                                      subtype: .any,
+                                                                      options: fetchOptions)
             DispatchQueue.main.async {
                 if let album = collections.firstObject {
                     completionHandler(album)
@@ -120,25 +125,26 @@ class StartViewModel {
         }
     }
     
-    private func save(photo: UIImage, toAlbum title: String, completionHandler: @escaping (Bool, Error?) -> ()) {
+    private func save(photo: UIImage,
+                      toAlbum title: String,
+                      completionHandler: @escaping (Bool, Error?) -> ()) {
+        
         getAlbumFor(title) { (album) in
-            DispatchQueue.global(qos: .background).async {
+            DispatchQueue.global(qos: .default).async {
                 PHPhotoLibrary.shared().performChanges({
                     let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: photo)
                     let assets = assetRequest.placeholderForCreatedAsset
                         .map { [$0] as NSArray } ?? NSArray()
+                    
                     let albumChangeRequest = album.flatMap { PHAssetCollectionChangeRequest(for: $0) }
                     albumChangeRequest?.addAssets(assets)
-                }, completionHandler: { (success, error) in
+                }, completionHandler: {
+                    (success, error) in
                     DispatchQueue.main.async {
                         completionHandler(success, error)
                     }
                 })
             }
         }
-    }
-    
-    private func getAssetFor(_ photo: UIImage) {
-        
     }
 }

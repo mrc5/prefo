@@ -426,9 +426,8 @@ extension StartController: UICollectionViewDelegate, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageZoom = ImageZoomController()
         let prefo = viewModel.prefos[indexPath.section].value[indexPath.item]
-        imageZoom.setupDetail(prefo)
+        let imageZoom = ImageZoomController(prefo: prefo)
         navigationController?.pushViewController(imageZoom, animated: true)
     }
     
@@ -462,11 +461,15 @@ extension StartController: UIImagePickerControllerDelegate, UINavigationControll
         let prefo = Prefo(date: dateStr, image: image)
         viewModel.add(prefo)
 
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true)
     }
 }
 
 extension StartController: StartViewDelegate {
+    func showLoading() {
+        activityIndicator.startAnimating()
+    }
+    
     func showRestricted() {
         activityIndicator.stopAnimating()
         emptyLabel.removeFromSuperview()
