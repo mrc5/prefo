@@ -12,6 +12,8 @@
 "OnboardingController:NotificationAuthorization" = "The created reminder will be repeated weekly according to your set time.";
 "OnboardingController:CreateNotificationButtonTitle" = "Create reminder";
 
+"StartController:EmptyLabel" = "You have not added a photo yet. Add one now!";
+
 "Picker:DoneButtonTitle" = "Done";
 "Picker:CancelButtonTitle" = "Cancel";
 

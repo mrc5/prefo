@@ -54,7 +54,8 @@ class StartController: UIViewController {
     lazy var emptyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Du hast noch kein Foto gespeichert. Füge jetzt eines hinzu."
+        label.text = NSLocalizedString("StartController:EmptyLabel",
+                                       comment: "StartController:EmptyLabel")
         label.textColor = .lightGray
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 22)
@@ -65,7 +66,8 @@ class StartController: UIViewController {
     lazy var restrictedLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Du hast prefo nicht erlaubt auf deine Fotos zuzugreifen."
+        label.text = NSLocalizedString("Error:CreateAlbumAlertMessage",
+                                       comment: "Error:CreateAlbumAlertMessage")
         label.textColor = .lightGray
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 22)
@@ -164,12 +166,14 @@ class StartController: UIViewController {
             case .authorized:
                 break
             case .restricted, .denied, .notDetermined:
-                let title = "Fehler"
-                let message = "Du hast prefo nicht erlaubt auf dein Fotoalbum zuzugreifen. Um Fotos aufnehmen und speichern zu können benötigen wir allerdings Zugriff benötigt. Bitte passe das in den Datenschutzeinstellungen deines iPhones an, um prefo zu nutzen."
+                let title = NSLocalizedString("Error:CreateAlbumAlertTitle",
+                                              comment: "Error:CreateAlbumAlertTitle")
+                let message = NSLocalizedString("Error:CreateAlbumAlertMessage",
+                                                comment: "Error:CreateAlbumAlertMessage")
                 let alert = UIAlertController(title: title,
                                               message: message,
                                               preferredStyle: .alert)
-                let alertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                let alertAction = UIAlertAction(title: "Error:CreateAlbumAlertOKButtonTitle", style: .cancel, handler: nil)
                 alert.addAction(alertAction)
                 
                 DispatchQueue.main.async {

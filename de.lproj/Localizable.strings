@@ -12,6 +12,8 @@
 "OnboardingController:NotificationAuthorization" = "Die erstellte Erinnerung wird nach deiner Eingestellten Zeit wöchentlich wiederholt.";
 "OnboardingController:CreateNotificationButtonTitle" = "Erinnerung anlegen";
 
+"StartController:EmptyLabel" = "Du hast noch kein Foto gespeichert. Füge jetzt eines hinzu";
+
 "Picker:DoneButtonTitle" = "Fertig";
 "Picker:CancelButtonTitle" = "Abbrechen";
 
