@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2C40090021CC10AA00159094 /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 2C4008FF21CC10AA00159094 /* success.json */; };
-		2C40090321CC117B00159094 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C40090221CC117B00159094 /* Lottie.framework */; };
-		2C40090421CC117B00159094 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2C40090221CC117B00159094 /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2C5F1ECF21B9A36600F2C147 /* StartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F1ECE21B9A36600F2C147 /* StartViewModel.swift */; };
 		2C5F1ED121B9A4A700F2C147 /* PrefoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F1ED021B9A4A700F2C147 /* PrefoCell.swift */; };
 		2C5F1ED321BA674500F2C147 /* ImageZoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F1ED221BA674500F2C147 /* ImageZoomController.swift */; };
@@ -24,6 +22,7 @@
 		2CB9BF1B21B84C3B00700013 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CB9BF1921B84C3B00700013 /* LaunchScreen.storyboard */; };
 		2CD63065220F0137004F1CB0 /* UINavigationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD63064220F0137004F1CB0 /* UINavigationExtension.swift */; };
 		2CDD95CD21BD122400614B53 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD95CC21BD122400614B53 /* SectionHeaderView.swift */; };
+		2CE32217221DAC0C008FF2AE /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE32216221DAC0B008FF2AE /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,7 +32,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2C40090421CC117B00159094 /* Lottie.framework in Embed Frameworks */,
+				2CE32217221DAC0C008FF2AE /* Lottie.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,7 +41,6 @@
 
 /* Begin PBXFileReference section */
 		2C4008FF21CC10AA00159094 /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
-		2C40090221CC117B00159094 /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = Carthage/Build/iOS/Lottie.framework; sourceTree = "<group>"; };
 		2C5F1ECE21B9A36600F2C147 /* StartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewModel.swift; sourceTree = "<group>"; };
 		2C5F1ED021B9A4A700F2C147 /* PrefoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefoCell.swift; sourceTree = "<group>"; };
 		2C5F1ED221BA674500F2C147 /* ImageZoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomController.swift; sourceTree = "<group>"; };
@@ -60,6 +58,7 @@
 		2CB9BF1C21B84C3B00700013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CD63064220F0137004F1CB0 /* UINavigationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationExtension.swift; sourceTree = "<group>"; };
 		2CDD95CC21BD122400614B53 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
+		2CE32216221DAC0B008FF2AE /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = Carthage/Build/iOS/Lottie.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C40090321CC117B00159094 /* Lottie.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,9 +83,10 @@
 		2CB9BF0421B84C3900700013 = {
 			isa = PBXGroup;
 			children = (
-				2C40090221CC117B00159094 /* Lottie.framework */,
+				2CE32216221DAC0B008FF2AE /* Lottie.framework */,
 				2CB9BF0F21B84C3900700013 /* pregnancyPhoto */,
 				2CB9BF0E21B84C3900700013 /* Products */,
+				2CE32218221DAC31008FF2AE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,6 +121,13 @@
 			path = pregnancyPhoto;
 			sourceTree = "<group>";
 		};
+		2CE32218221DAC31008FF2AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,8 +138,8 @@
 				2CB9BF0921B84C3900700013 /* Sources */,
 				2CB9BF0A21B84C3900700013 /* Frameworks */,
 				2CB9BF0B21B84C3900700013 /* Resources */,
-				2C4008FE21C9815A00159094 /* ShellScript */,
 				2C40090521CC117C00159094 /* Embed Frameworks */,
+				2C4008FE21C9815A00159094 /* ShellScript */,
 			);
 			buildRules = (
 			);

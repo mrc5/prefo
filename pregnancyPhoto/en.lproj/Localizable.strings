@@ -6,8 +6,8 @@
   Copyright © 2018 Marcus Hopp. All rights reserved.
 */
 
-"OnboardingController:Welcome" = "Welcome to prefo. With this app, you can document your pregnancy with simple snapshots.";
-"OnboardingController:PhotoAuthorization" = "To be able to save your pictures you will need access to your photo album.";
+"OnboardingController:Welcome" = "Welcome to prefo! With this app, you can document your pregnancy with simple snapshots";
+"OnboardingController:PhotoAuthorization" = "To be able to save your pictures prefo needs access to your photo album";
 "OnboardingController:CreateAlbumButtonTitle" = "Create album";
 "OnboardingController:NotificationAuthorization" = "The created reminder will be repeated weekly according to your set time.";
 "OnboardingController:CreateNotificationButtonTitle" = "Create reminder";
@@ -18,7 +18,7 @@
 "Picker:CancelButtonTitle" = "Cancel";
 
 "Error:CreateAlbumAlertTitle" = "Error";
-"Error:CreateAlbumAlertMessage" = "You did not allow prefo to use your photo album. Please give the permission and return here..";
+"Error:CreateAlbumAlertMessage" = "You did not allow prefo to use your photo album. Please give the permission and return here";
 "Error:CreateAlbumAlertOKButtonTitle" = "Ok";
 
 "Notification:Title" = "Fototime 😍🤰";

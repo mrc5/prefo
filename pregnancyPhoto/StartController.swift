@@ -152,12 +152,12 @@ class StartController: UIViewController {
         
         setupView()
         viewModel.viewDelegate = self
+        viewModel.setupData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkForAuthorization()
-        viewModel.setupData()
     }
     
     private func checkForAuthorization() {
