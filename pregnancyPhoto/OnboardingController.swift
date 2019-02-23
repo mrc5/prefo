@@ -282,9 +282,12 @@ class OnboardingController: UIViewController {
                 if let error = error {
                     // failed with error!
                     print(error.localizedDescription)
+                    AppConfiguration.shared.albumWasCreated = false
                 }
                 
                 if success {
+                    AppConfiguration.shared.albumWasCreated = true
+                    
                     guard let placeholder = albumPlaceholder else {
                         fatalError("Album placeholder is nil")
                     }
@@ -306,6 +309,8 @@ class OnboardingController: UIViewController {
             })
         } else {
             print("Album \(name) already exists and was not created!")
+            
+            AppConfiguration.shared.albumWasCreated = true
             
             DispatchQueue.main.async {
                 self.scrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.width * 2,
@@ -372,57 +377,78 @@ class OnboardingController: UIViewController {
     @objc
     private func addNotificationTapped() {
         
-        guard let delegate = UIApplication.shared.delegate as? AppDelegate,
-            let window = delegate.window else { return }
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePicker))
-        coverView.addGestureRecognizer(tapGesture)
-        window.addSubview(coverView)
-        
-        let targetY = window.frame.height - 274
-        
-        contentView = UIView(frame: CGRect(x: 0,
-                                           y: window.frame.height,
-                                           width: window.frame.width,
-                                           height: 274))
-        
-        contentView.layer.cornerRadius = 10
-        contentView.backgroundColor = .white
-        coverView.addSubview(contentView)
-        contentView.addSubview(picker)
-        contentView.addSubview(doneButton)
-        contentView.addSubview(cancelButton)
-        
-        NSLayoutConstraint.activate([
-            coverView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
-            coverView.topAnchor.constraint(equalTo: window.topAnchor),
-            coverView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
-            coverView.bottomAnchor.constraint(equalTo: window.bottomAnchor),
+        if AppConfiguration.shared.albumWasCreated {
+            guard let delegate = UIApplication.shared.delegate as? AppDelegate,
+                let window = delegate.window else { return }
             
-            picker.heightAnchor.constraint(equalToConstant: 200),
-            picker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-            picker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            picker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closePicker))
+            coverView.addGestureRecognizer(tapGesture)
+            window.addSubview(coverView)
             
-            doneButton.heightAnchor.constraint(equalToConstant: 44),
-            doneButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            doneButton.bottomAnchor.constraint(equalTo: picker.topAnchor, constant: 8),
+            let targetY = window.frame.height - 274
             
-            cancelButton.heightAnchor.constraint(equalToConstant: 44),
-            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            cancelButton.bottomAnchor.constraint(equalTo: picker.topAnchor, constant: 8)
-            ])
-        
-        UIView.animate(withDuration: 0.2, animations: {
-            self.coverView.alpha = 1
-        }) { (_) in
-            UIView.animate(withDuration: 0.3, animations: {
-                self.contentView.frame = CGRect(x: 0,
-                                                y: targetY,
-                                                width: window.frame.width,
-                                                height: 274)
-                self.picker.isHidden = false
-            })
+            contentView = UIView(frame: CGRect(x: 0,
+                                               y: window.frame.height,
+                                               width: window.frame.width,
+                                               height: 274))
+            
+            contentView.layer.cornerRadius = 10
+            contentView.backgroundColor = .white
+            coverView.addSubview(contentView)
+            contentView.addSubview(picker)
+            contentView.addSubview(doneButton)
+            contentView.addSubview(cancelButton)
+            
+            NSLayoutConstraint.activate([
+                coverView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+                coverView.topAnchor.constraint(equalTo: window.topAnchor),
+                coverView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+                coverView.bottomAnchor.constraint(equalTo: window.bottomAnchor),
+                
+                picker.heightAnchor.constraint(equalToConstant: 200),
+                picker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+                picker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                picker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                
+                doneButton.heightAnchor.constraint(equalToConstant: 44),
+                doneButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+                doneButton.bottomAnchor.constraint(equalTo: picker.topAnchor, constant: 8),
+                
+                cancelButton.heightAnchor.constraint(equalToConstant: 44),
+                cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+                cancelButton.bottomAnchor.constraint(equalTo: picker.topAnchor, constant: 8)
+                ])
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.coverView.alpha = 1
+            }) { (_) in
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.contentView.frame = CGRect(x: 0,
+                                                    y: targetY,
+                                                    width: window.frame.width,
+                                                    height: 274)
+                    self.picker.isHidden = false
+                })
+            }
+        } else {
+            let title = NSLocalizedString("OnboardingController:AlbumWasNotCreatedErrorTitle",
+                                          comment: "OnboardingController:AlbumWasNotCreatedErrorTitle")
+            let message = NSLocalizedString("OnboardingController:AlbumWasNotCreatedErrorMessage",
+                                            comment: "OnboardingController:AlbumWasNotCreatedErrorMessage")
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: NSLocalizedString("Error:CreateAlbumAlertOKButtonTitle",
+                                                                  comment: "Error:CreateAlbumAlertOKButtonTitle"),
+                                         style: .default) { (_) in
+                self.scrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.width,
+                                                          y: 0),
+                                                  animated: true)
+            }
+            alert.addAction(okAction)
+            
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.present(alert, animated: true, completion: nil)
+            }
         }
     }
     

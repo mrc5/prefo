@@ -6,13 +6,16 @@
   Copyright © 2018 Marcus Hopp. All rights reserved.
 */
 
-"OnboardingController:Welcome" = "Welcome to prefo! With this app, you can document your pregnancy with simple snapshots";
+"OnboardingController:Welcome" = "Welcome to prefo!\nWith this app, you can document your pregnancy with simple snapshots";
 "OnboardingController:PhotoAuthorization" = "To be able to save your pictures prefo needs access to your photo album";
 "OnboardingController:CreateAlbumButtonTitle" = "Create album";
 "OnboardingController:NotificationAuthorization" = "The created reminder will be repeated weekly according to your set time.";
 "OnboardingController:CreateNotificationButtonTitle" = "Create reminder";
+"OnboardingController:AlbumWasNotCreatedErrorTitle" = "Error";
+"OnboardingController:AlbumWasNotCreatedErrorMessage" = "You have not created an album yet";
 
 "StartController:EmptyLabel" = "You have not added a photo yet. Add one now!";
+"StartController:AddPhotoButtonTitle" = "Add photo";
 
 "Picker:DoneButtonTitle" = "Done";
 "Picker:CancelButtonTitle" = "Cancel";

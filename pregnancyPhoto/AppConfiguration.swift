@@ -22,4 +22,13 @@ class AppConfiguration {
             defaults.set(newValue, forKey: "onboardingWasShown")
         }
     }
+    
+    var albumWasCreated: Bool {
+        get {
+            return defaults.bool(forKey: "albumWasCreated")
+        }
+        set {
+            defaults.set(newValue, forKey: "albumWasCreated")
+        }
+    }
 }

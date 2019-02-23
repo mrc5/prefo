@@ -6,13 +6,16 @@
   Copyright © 2018 Marcus Hopp. All rights reserved.
 */
 
-"OnboardingController:Welcome" = "Willkommen bei prefo! Mit dieser App kannst du deine Schwangerschaft mit einfachen Schnappschüssen dokumentieren";
+"OnboardingController:Welcome" = "Willkommen bei prefo!\nMit dieser App kannst du deine Schwangerschaft mit einfachen Schnappschüssen dokumentieren";
 "OnboardingController:PhotoAuthorization" = "Um deine Bilder speichern zu können benötigen wird Zugriff auf dein Fotoalbum";
 "OnboardingController:CreateAlbumButtonTitle" = "Album anlegen";
 "OnboardingController:NotificationAuthorization" = "Die erstellte Erinnerung wird zu deiner festgelegten Zeit wöchentlich wiederholt";
 "OnboardingController:CreateNotificationButtonTitle" = "Erinnerung anlegen";
+"OnboardingController:AlbumWasNotCreatedErrorTitle" = "Fehler";
+"OnboardingController:AlbumWasNotCreatedErrorMessage" = "Du hast noch kein Album angelegt";
 
 "StartController:EmptyLabel" = "Du hast noch kein Foto gespeichert. Füge jetzt eins hinzu";
+"StartController:AddPhotoButtonTitle" = "Foto hinzufügen";
 
 "Picker:DoneButtonTitle" = "Fertig";
 "Picker:CancelButtonTitle" = "Abbrechen";

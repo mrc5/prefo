@@ -42,7 +42,8 @@ class StartController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.darkGray, for: .highlighted)
-        button.setTitle("Foto hinzufügen", for: .normal)
+        button.setTitle(NSLocalizedString("StartController:AddPhotoButtonTitle",
+                                          comment: "StartController:AddPhotoButtonTitle"), for: .normal)
         button.layer.cornerRadius = 22
         button.backgroundColor = AppConfiguration.shared.color
         button.addTarget(self,
@@ -131,7 +132,7 @@ class StartController: UIViewController {
         picker.isHidden = true
         picker.datePickerMode = .dateAndTime
         picker.backgroundColor = .white
-        picker.locale = Locale(identifier: "de")
+        picker.locale = Locale.current
         picker.addTarget(self,
                          action: #selector(datePickerValueChanged(_:)),
                          for: .valueChanged)
@@ -492,6 +493,7 @@ extension StartController: StartViewDelegate {
     }
     
     func showEmpty() {
+        resetBarButtons()
         activityIndicator.stopAnimating()
         restrictedLabel.removeFromSuperview()
         
