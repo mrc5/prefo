@@ -97,7 +97,7 @@ class StartController: UIViewController {
     lazy var doneButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Fertig", for: .normal)
+        button.setTitle(NSLocalizedString("Picker:DoneButtonTitle", comment: "Picker:DoneButtonTitle"), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.gray, for: .highlighted)
         button.backgroundColor = AppConfiguration.shared.color
@@ -112,7 +112,7 @@ class StartController: UIViewController {
     lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Abbrechen", for: .normal)
+        button.setTitle(NSLocalizedString("Picker:CancelButtonTitle", comment: "Picker:CancelButtonTitle"), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.gray, for: .highlighted)
         button.backgroundColor = AppConfiguration.shared.color
