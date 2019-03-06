@@ -191,7 +191,19 @@ class StartController: UIViewController {
                                         style: .plain,
                                         target: self,
                                         action: #selector(notificationButtonTapped))
+        let settingsBarButton = UIBarButtonItem(image: UIImage(named: "settings"),
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(showSettings))
+        navigationItem.leftBarButtonItem = settingsBarButton
         navigationItem.rightBarButtonItems = [notificationBarButton]
+    }
+    
+    @objc
+    func showSettings() {
+        let settings = SettingsViewController()
+        let settingsNavigationController = UINavigationController(rootViewController: settings)
+        present(settingsNavigationController, animated: true, completion: nil)
     }
 
     private func setupView() {
@@ -276,7 +288,6 @@ class StartController: UIViewController {
                                                y: window.frame.height,
                                                width: window.frame.width,
                                                height: 274))
-        
         contentView.layer.cornerRadius = 10
         contentView.backgroundColor = .white
         coverView.addSubview(contentView)

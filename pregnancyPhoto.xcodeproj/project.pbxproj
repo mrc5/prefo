@@ -20,6 +20,10 @@
 		2CB9BF1321B84C3A00700013 /* StartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB9BF1221B84C3A00700013 /* StartController.swift */; };
 		2CB9BF1821B84C3B00700013 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CB9BF1721B84C3B00700013 /* Assets.xcassets */; };
 		2CB9BF1B21B84C3B00700013 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CB9BF1921B84C3B00700013 /* LaunchScreen.storyboard */; };
+		2CD1A4732230246D00214228 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD1A4722230246D00214228 /* SettingsViewController.swift */; };
+		2CD1A4752230291C00214228 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD1A4742230291C00214228 /* SettingsCell.swift */; };
+		2CD1A47722302CA100214228 /* SettingsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD1A47622302CA100214228 /* SettingsFooterView.swift */; };
+		2CD1A479223033A700214228 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD1A478223033A700214228 /* WebViewController.swift */; };
 		2CD63065220F0137004F1CB0 /* UINavigationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD63064220F0137004F1CB0 /* UINavigationExtension.swift */; };
 		2CDD95CD21BD122400614B53 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD95CC21BD122400614B53 /* SectionHeaderView.swift */; };
 		2CE32217221DAC0C008FF2AE /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE32216221DAC0B008FF2AE /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -56,6 +60,10 @@
 		2CB9BF1721B84C3B00700013 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2CB9BF1A21B84C3B00700013 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2CB9BF1C21B84C3B00700013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CD1A4722230246D00214228 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		2CD1A4742230291C00214228 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		2CD1A47622302CA100214228 /* SettingsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFooterView.swift; sourceTree = "<group>"; };
+		2CD1A478223033A700214228 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		2CD63064220F0137004F1CB0 /* UINavigationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationExtension.swift; sourceTree = "<group>"; };
 		2CDD95CC21BD122400614B53 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		2CE32216221DAC0B008FF2AE /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = Carthage/Build/iOS/Lottie.framework; sourceTree = "<group>"; };
@@ -106,6 +114,10 @@
 				2C5F1ED621BC2BCA00F2C147 /* OnboardingController.swift */,
 				2CB9BF1221B84C3A00700013 /* StartController.swift */,
 				2C5F1ED221BA674500F2C147 /* ImageZoomController.swift */,
+				2CD1A4722230246D00214228 /* SettingsViewController.swift */,
+				2CD1A4742230291C00214228 /* SettingsCell.swift */,
+				2CD1A478223033A700214228 /* WebViewController.swift */,
+				2CD1A47622302CA100214228 /* SettingsFooterView.swift */,
 				2C5F1ED021B9A4A700F2C147 /* PrefoCell.swift */,
 				2CDD95CC21BD122400614B53 /* SectionHeaderView.swift */,
 				2C5F1ECE21B9A36600F2C147 /* StartViewModel.swift */,
@@ -226,12 +238,16 @@
 			files = (
 				2C5F1ED921BC5DD300F2C147 /* PrefoModel.swift in Sources */,
 				2C5F1ED521BC2B1600F2C147 /* AppConfiguration.swift in Sources */,
+				2CD1A4752230291C00214228 /* SettingsCell.swift in Sources */,
+				2CD1A47722302CA100214228 /* SettingsFooterView.swift in Sources */,
+				2CD1A4732230246D00214228 /* SettingsViewController.swift in Sources */,
 				2CB9BF1321B84C3A00700013 /* StartController.swift in Sources */,
 				2C5F1ECF21B9A36600F2C147 /* StartViewModel.swift in Sources */,
 				2CDD95CD21BD122400614B53 /* SectionHeaderView.swift in Sources */,
 				2C5F1ED721BC2BCA00F2C147 /* OnboardingController.swift in Sources */,
 				2C5F1ED121B9A4A700F2C147 /* PrefoCell.swift in Sources */,
 				2CD63065220F0137004F1CB0 /* UINavigationExtension.swift in Sources */,
+				2CD1A479223033A700214228 /* WebViewController.swift in Sources */,
 				2CB9BF1121B84C3A00700013 /* AppDelegate.swift in Sources */,
 				2C5F1ED321BA674500F2C147 /* ImageZoomController.swift in Sources */,
 			);
