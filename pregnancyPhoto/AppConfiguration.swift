@@ -12,7 +12,8 @@ class AppConfiguration {
     static let shared = AppConfiguration()
     private let defaults = UserDefaults.standard
     
-    let color = UIColor(red: 0.7882, green: 0, blue: 0.8588, alpha: 1.0)
+    
+    let color = UIColor(red:0.97, green:0.51, blue:0.47, alpha:1.0)
     
     var onboardingWasShown: Bool {
         get {
