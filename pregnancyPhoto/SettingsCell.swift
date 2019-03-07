@@ -18,6 +18,7 @@ class SettingsCell: UITableViewCell {
     lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .darkGray
         return label
     }()
     
@@ -35,15 +36,8 @@ class SettingsCell: UITableViewCell {
         ])
     }
 
-    func setupWith(_ type: String) {
-        switch type {
-        case Data.Privacy.rawValue:
-            label.text = "Privacy"
-        case Data.Licences.rawValue:
-            label.text = "Licences"
-        default:
-            break
-        }
+    func setupWith(_ label: String) {
+        self.label.text = label
     }
     
     required init?(coder aDecoder: NSCoder) {

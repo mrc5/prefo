@@ -26,3 +26,9 @@
 
 "Notification:Title" = "Fototime 😍🤰";
 "Notification:Body" = "It's time to take another picture of your tummy";
+
+"SettingsViewController:Title" = "Settings";
+"SettingsViewController:Privacy" = "Privacy";
+"SettingsViewController:CloseButtonTitle" = "Close";
+
+"WebViewController:Privacy" = "Privacy";

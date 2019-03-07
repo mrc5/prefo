@@ -10,8 +10,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
-    private let data = ["Privacy", "Licences"]
-    
+    private let data = [NSLocalizedString("SettingsViewController:Privacy", comment: "SettingsViewController:Privacy")]
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero,
@@ -30,7 +29,8 @@ class SettingsViewController: UIViewController {
     }
     
     func setupCloseButton() {
-        let closeButton = UIBarButtonItem(title: "Close",
+        let closeButton = UIBarButtonItem(title: NSLocalizedString("SettingsViewController:CloseButtonTitle",
+                                                                   comment: "SettingsViewController:CloseButtonTitle"),
                                           style: .plain,
                                           target: self,
                                           action: #selector(didTapCloseButton))
@@ -53,7 +53,7 @@ class SettingsViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationItem.noBackButtonTitle()
         
-        title = "Settings"
+        title = NSLocalizedString("SettingsViewController:Title", comment: "SettingsViewController:Title")
         
         view.addSubview(tableView)
         
@@ -100,7 +100,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let webView = WebViewController()
-        webView.configureView(data[indexPath.row])
         navigationController?.pushViewController(webView, animated: true)
     }
     

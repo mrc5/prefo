@@ -16,41 +16,38 @@ class WebViewController: UIViewController {
         return webView
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
         setupView()
+        configureData()
     }
     
-    func configureView(_ type: String) {
-        title = type
-        
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureData() {
         var urlString = "https://www.iubenda.com/privacy-policy/40351588"
         
-        switch type {
-        case "Privacy":
-            if let currentLanguage = Locale.current.languageCode {
-                if currentLanguage == "en" {
-                    urlString = "https://www.iubenda.com/privacy-policy/40351588"
-                } else if currentLanguage == "de" {
-                    urlString = "https://www.iubenda.com/privacy-policy/38110291"
-                }
+        if let currentLanguage = Locale.current.languageCode {
+            if currentLanguage == "en" {
+                urlString = "https://www.iubenda.com/privacy-policy/40351588"
+            } else if currentLanguage == "de" {
+                urlString = "https://www.iubenda.com/privacy-policy/38110291"
             }
-            
-            guard let url = URL(string: urlString) else { return }
-            let request = URLRequest(url: url)
-            
-            webView.load(request)
-        case "Licences":
-            print("Licences")
-        default:
-            break
         }
+        
+        guard let url = URL(string: urlString) else { return }
+        let request = URLRequest(url: url)
+        webView.load(request)
     }
     
     
     
     private func setupView() {
+        title = NSLocalizedString("WebViewController:Privacy",
+                                  comment: "WebViewController:Privacy")
         view.addSubview(webView)
         
         NSLayoutConstraint.activate([

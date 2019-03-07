@@ -26,3 +26,9 @@
 
 "Notification:Title" = "Fototime 😍🤰";
 "Notification:Body" = "Es ist wieder soweit ein neues Foto von deinem Bäuchlein zu machen";
+
+"SettingsViewController:Title" = "Einstellungen";
+"SettingsViewController:Privacy" = "Datenschutz";
+"SettingsViewController:CloseButtonTitle" = "Schließen";
+
+"WebViewController:Privacy" = "Datenschutz";
