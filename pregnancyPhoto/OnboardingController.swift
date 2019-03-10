@@ -365,6 +365,17 @@ class OnboardingController: UIViewController {
                         })
                     }
                 })
+            } else {
+                DispatchQueue.main.async {
+                    UINotificationFeedbackGenerator().notificationOccurred(.error)
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.coverView.alpha = 0
+                    }, completion: { (_) in
+                        self.closePicker()
+                        AppConfiguration.shared.onboardingWasShown = true
+                        self.startContentController()
+                    })
+                }
             }
         }
     }
@@ -376,7 +387,6 @@ class OnboardingController: UIViewController {
     
     @objc
     private func addNotificationTapped() {
-        
         if AppConfiguration.shared.albumWasCreated {
             guard let delegate = UIApplication.shared.delegate as? AppDelegate,
                 let window = delegate.window else { return }

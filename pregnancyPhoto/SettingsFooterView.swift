@@ -16,7 +16,7 @@ class SettingsFooterView: UITableViewHeaderFooterView {
         label.numberOfLines = 0
         label.textColor = .lightGray
         label.textAlignment = .center
-        label.text = "Made with love for my beautiful wife and the little nugget \n\n Version 1.0 Build 5"
+        label.text = "Made with love for my beautiful wife and the little nugget \n\n Version 1.0 Build 6"
         return label
     }()
     
