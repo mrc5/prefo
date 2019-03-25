@@ -9,6 +9,7 @@
 import UIKit
 import Lottie
 import Photos
+import StoreKit
 import UserNotifications
 
 class StartController: UIViewController {
@@ -477,7 +478,9 @@ extension StartController: UIImagePickerControllerDelegate, UINavigationControll
         let prefo = Prefo(date: dateStr, image: image)
         viewModel.add(prefo)
 
-        picker.dismiss(animated: true)
+        picker.dismiss(animated: true) {
+            SKStoreReviewController.requestReview()
+        }
     }
 }
 
