@@ -24,7 +24,7 @@ class StartController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.delegate = self
-        cv.backgroundColor = .groupTableViewBackground
+        cv.backgroundColor = .systemBackground
         cv.dataSource = self
         cv.register(PrefoCell.self, forCellWithReuseIdentifier: "PrefoCell")
         cv.register(SectionHeaderView.self,
@@ -82,7 +82,7 @@ class StartController: UIViewController {
         ai.translatesAutoresizingMaskIntoConstraints = false
         ai.hidesWhenStopped = true
         ai.startAnimating()
-        ai.style = UIActivityIndicatorView.Style.whiteLarge
+        ai.style = UIActivityIndicatorView.Style.large
         ai.color = AppConfiguration.shared.color
         return ai
     }()
@@ -183,6 +183,8 @@ class StartController: UIViewController {
                                  animated: true,
                                  completion: nil)
                 }
+            @unknown default:
+                fatalError()
             }
         }
     }

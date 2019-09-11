@@ -43,7 +43,7 @@ class SettingsViewController: UIViewController {
     }
     
     func setupView() {
-        view.backgroundColor = .groupTableViewBackground
+        view.backgroundColor = .systemBackground
         navigationController?.navigationBar.barTintColor = AppConfiguration.shared.color
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true

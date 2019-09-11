@@ -253,6 +253,8 @@ class OnboardingController: UIViewController {
                 break
             case .restricted:
                 break
+            @unknown default:
+                fatalError()
             }
         }
     }
