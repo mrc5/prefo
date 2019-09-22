@@ -15,9 +15,9 @@ update_fastlane
 
 
   lane :release do
-    get_push_certificate
-    capture_screenshots                  # generate new screenshots for the App Store
-    sync_code_signing(type: "appstore")  # see code signing guide for more information
+    #get_push_certificate
+    #capture_screenshots                  # generate new screenshots for the App Store
+    #sync_code_signing(type: "appstore")  # see code signing guide for more information
     build_app(scheme: "pregnancyPhoto")
     upload_to_app_store
   end
