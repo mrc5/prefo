@@ -132,7 +132,6 @@ class StartController: UIViewController {
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.isHidden = true
         picker.datePickerMode = .dateAndTime
-        picker.backgroundColor = .white
         picker.locale = Locale.current
         picker.addTarget(self,
                          action: #selector(datePickerValueChanged(_:)),
@@ -296,7 +295,7 @@ class StartController: UIViewController {
                                                width: window.frame.width,
                                                height: 274))
         contentView.layer.cornerRadius = 10
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = .systemBackground
         coverView.addSubview(contentView)
         contentView.addSubview(picker)
         contentView.addSubview(doneButton)
