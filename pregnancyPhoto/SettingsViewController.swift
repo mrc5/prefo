@@ -25,13 +25,31 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         
         setupView()
+        setupNavigationBarAppearance()
         setupCloseButton()
+    }
+    
+    private func setupNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = AppConfiguration.shared.color
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        
+        navigationItem.noBackButtonTitle()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     func setupCloseButton() {
         let closeButton = UIBarButtonItem(title: NSLocalizedString("SettingsViewController:CloseButtonTitle",
                                                                    comment: "SettingsViewController:CloseButtonTitle"),
-                                          style: .plain,
+                                          style: .done,
                                           target: self,
                                           action: #selector(didTapCloseButton))
         navigationItem.rightBarButtonItem = closeButton
@@ -44,17 +62,7 @@ class SettingsViewController: UIViewController {
     
     func setupView() {
         view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.barTintColor = AppConfiguration.shared.color
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
-        navigationItem.noBackButtonTitle()
-        
         title = NSLocalizedString("SettingsViewController:Title", comment: "SettingsViewController:Title")
-        
         view.addSubview(tableView)
         
         tableView.register(SettingsCell.self,

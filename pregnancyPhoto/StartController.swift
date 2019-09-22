@@ -190,11 +190,11 @@ class StartController: UIViewController {
     }
     
     private func resetBarButtons() {
-        let notificationBarButton = UIBarButtonItem(image: UIImage(named: "notification"),
+        let notificationBarButton = UIBarButtonItem(image: UIImage(systemName: "bell"),
                                         style: .plain,
                                         target: self,
                                         action: #selector(notificationButtonTapped))
-        let settingsBarButton = UIBarButtonItem(image: UIImage(named: "settings"),
+        let settingsBarButton = UIBarButtonItem(image: UIImage(systemName: "gear"),
                                                 style: .plain,
                                                 target: self,
                                                 action: #selector(showSettings))
@@ -210,13 +210,17 @@ class StartController: UIViewController {
     }
 
     private func setupView() {
-        navigationController?.navigationBar.barTintColor = AppConfiguration.shared.color
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.prefersLargeTitles = true
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = AppConfiguration.shared.color
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    
         navigationItem.noBackButtonTitle()
         
         title = "prefo"
