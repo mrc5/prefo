@@ -14,8 +14,8 @@
 "OnboardingController:AlbumWasNotCreatedErrorTitle" = "Fehler";
 "OnboardingController:AlbumWasNotCreatedErrorMessage" = "Du hast noch kein Album angelegt";
 
-"StartController:EmptyLabel" = "Du hast noch kein Foto gespeichert. Füge jetzt eins hinzu";
-"StartController:AddPhotoButtonTitle" = "Foto hinzufügen";
+"TakePhotoController:EmptyLabel" = "Du hast noch kein Foto gespeichert. Füge jetzt eins hinzu";
+"TakePhotoController:AddPhotoButtonTitle" = "Foto hinzufügen";
 
 "Picker:DoneButtonTitle" = "Fertig";
 "Picker:CancelButtonTitle" = "Abbrechen";

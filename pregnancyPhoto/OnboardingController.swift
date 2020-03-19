@@ -87,7 +87,7 @@ class OnboardingController: UIViewController {
     
     private var pickerDate: Date?
     
-    private let viewModel = StartViewModel.shared
+    private let viewModel = TakePhotoViewModel.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -491,7 +491,7 @@ class OnboardingController: UIViewController {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate,
             let window = delegate.window else { return }
         
-        window.rootViewController = UINavigationController(rootViewController: StartController())
+        window.rootViewController = UINavigationController(rootViewController: TakePhotoController())
         window.makeKeyAndVisible()
     }
 }

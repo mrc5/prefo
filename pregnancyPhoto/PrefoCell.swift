@@ -14,12 +14,12 @@ class PrefoCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 20
         return imageView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         addSubview(imageView)
         
         NSLayoutConstraint.activate([

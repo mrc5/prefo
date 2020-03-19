@@ -1,5 +1,5 @@
 //
-//  StartViewModel.swift
+//  TakePhotoViewModel.swift
 //  pregnancyPhoto
 //
 //  Created by Marcus on 06.12.18.
@@ -16,8 +16,8 @@ protocol StartViewDelegate: class {
     func showRestricted()
 }
 
-class StartViewModel {
-    static let shared = StartViewModel()
+class TakePhotoViewModel {
+    static let shared = TakePhotoViewModel()
 
     var prefos = [(key: String, value: [Prefo])]()
     private var prefo = [Prefo]()
@@ -75,7 +75,7 @@ class StartViewModel {
                                            height: asset.pixelHeight)
                     /* For faster performance, and maybe degraded image */
                     let options = PHImageRequestOptions()
-                    options.deliveryMode = .fastFormat
+                    options.deliveryMode = .opportunistic
                     options.isNetworkAccessAllowed = true
                     options.isSynchronous = true
 
@@ -85,7 +85,7 @@ class StartViewModel {
                                               options: options,
                                               resultHandler: {
                                                 (image, info) -> Void in
-                                                /* The image is now available to us */
+                                                /* The image is now available */
                                                 
                                                 guard let image = image else { return }
                                                 guard let creationDate = asset.creationDate else { return }

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C40090021CC10AA00159094 /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 2C4008FF21CC10AA00159094 /* success.json */; };
-		2C5F1ECF21B9A36600F2C147 /* StartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F1ECE21B9A36600F2C147 /* StartViewModel.swift */; };
+		2C5F1ECF21B9A36600F2C147 /* TakePhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F1ECE21B9A36600F2C147 /* TakePhotoViewModel.swift */; };
 		2C5F1ED121B9A4A700F2C147 /* PrefoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F1ED021B9A4A700F2C147 /* PrefoCell.swift */; };
 		2C5F1ED321BA674500F2C147 /* ImageZoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F1ED221BA674500F2C147 /* ImageZoomController.swift */; };
 		2C5F1ED521BC2B1600F2C147 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F1ED421BC2B1600F2C147 /* AppConfiguration.swift */; };
@@ -17,7 +17,7 @@
 		2C96ECCA21DA37E000413C51 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C96ECCC21DA37E000413C51 /* Localizable.strings */; };
 		2C96ECCD21DA37E400413C51 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C96ECCF21DA37E400413C51 /* Localizable.strings */; };
 		2CB9BF1121B84C3A00700013 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB9BF1021B84C3A00700013 /* AppDelegate.swift */; };
-		2CB9BF1321B84C3A00700013 /* StartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB9BF1221B84C3A00700013 /* StartController.swift */; };
+		2CB9BF1321B84C3A00700013 /* TakePhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB9BF1221B84C3A00700013 /* TakePhotoController.swift */; };
 		2CB9BF1821B84C3B00700013 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CB9BF1721B84C3B00700013 /* Assets.xcassets */; };
 		2CB9BF1B21B84C3B00700013 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CB9BF1921B84C3B00700013 /* LaunchScreen.storyboard */; };
 		2CD1A4732230246D00214228 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD1A4722230246D00214228 /* SettingsViewController.swift */; };
@@ -27,6 +27,8 @@
 		2CD63065220F0137004F1CB0 /* UINavigationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD63064220F0137004F1CB0 /* UINavigationExtension.swift */; };
 		2CDD95CD21BD122400614B53 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD95CC21BD122400614B53 /* SectionHeaderView.swift */; };
 		2CE32217221DAC0C008FF2AE /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE32216221DAC0B008FF2AE /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2F19E3262423F5480012B848 /* StartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F19E3252423F5480012B848 /* StartController.swift */; };
+		2F19E3282423F6880012B848 /* FeatureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F19E3272423F6880012B848 /* FeatureCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,7 +47,7 @@
 
 /* Begin PBXFileReference section */
 		2C4008FF21CC10AA00159094 /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
-		2C5F1ECE21B9A36600F2C147 /* StartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewModel.swift; sourceTree = "<group>"; };
+		2C5F1ECE21B9A36600F2C147 /* TakePhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakePhotoViewModel.swift; sourceTree = "<group>"; };
 		2C5F1ED021B9A4A700F2C147 /* PrefoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefoCell.swift; sourceTree = "<group>"; };
 		2C5F1ED221BA674500F2C147 /* ImageZoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomController.swift; sourceTree = "<group>"; };
 		2C5F1ED421BC2B1600F2C147 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -56,7 +58,7 @@
 		2C96ECD221DA381B00413C51 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2CB9BF0D21B84C3900700013 /* pregnancyPhoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pregnancyPhoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CB9BF1021B84C3A00700013 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2CB9BF1221B84C3A00700013 /* StartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartController.swift; sourceTree = "<group>"; };
+		2CB9BF1221B84C3A00700013 /* TakePhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakePhotoController.swift; sourceTree = "<group>"; };
 		2CB9BF1721B84C3B00700013 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2CB9BF1A21B84C3B00700013 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2CB9BF1C21B84C3B00700013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -67,6 +69,8 @@
 		2CD63064220F0137004F1CB0 /* UINavigationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationExtension.swift; sourceTree = "<group>"; };
 		2CDD95CC21BD122400614B53 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		2CE32216221DAC0B008FF2AE /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = Carthage/Build/iOS/Lottie.framework; sourceTree = "<group>"; };
+		2F19E3252423F5480012B848 /* StartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartController.swift; sourceTree = "<group>"; };
+		2F19E3272423F6880012B848 /* FeatureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +116,7 @@
 				2CB9BF1021B84C3A00700013 /* AppDelegate.swift */,
 				2C5F1ED421BC2B1600F2C147 /* AppConfiguration.swift */,
 				2C5F1ED621BC2BCA00F2C147 /* OnboardingController.swift */,
-				2CB9BF1221B84C3A00700013 /* StartController.swift */,
+				2CB9BF1221B84C3A00700013 /* TakePhotoController.swift */,
 				2C5F1ED221BA674500F2C147 /* ImageZoomController.swift */,
 				2CD1A4722230246D00214228 /* SettingsViewController.swift */,
 				2CD1A4742230291C00214228 /* SettingsCell.swift */,
@@ -120,7 +124,9 @@
 				2CD1A47622302CA100214228 /* SettingsFooterView.swift */,
 				2C5F1ED021B9A4A700F2C147 /* PrefoCell.swift */,
 				2CDD95CC21BD122400614B53 /* SectionHeaderView.swift */,
-				2C5F1ECE21B9A36600F2C147 /* StartViewModel.swift */,
+				2C5F1ECE21B9A36600F2C147 /* TakePhotoViewModel.swift */,
+				2F19E3252423F5480012B848 /* StartController.swift */,
+				2F19E3272423F6880012B848 /* FeatureCell.swift */,
 				2C5F1ED821BC5DD300F2C147 /* PrefoModel.swift */,
 				2CD63064220F0137004F1CB0 /* UINavigationExtension.swift */,
 				2CB9BF1721B84C3B00700013 /* Assets.xcassets */,
@@ -240,11 +246,13 @@
 			files = (
 				2C5F1ED921BC5DD300F2C147 /* PrefoModel.swift in Sources */,
 				2C5F1ED521BC2B1600F2C147 /* AppConfiguration.swift in Sources */,
+				2F19E3262423F5480012B848 /* StartController.swift in Sources */,
 				2CD1A4752230291C00214228 /* SettingsCell.swift in Sources */,
 				2CD1A47722302CA100214228 /* SettingsFooterView.swift in Sources */,
 				2CD1A4732230246D00214228 /* SettingsViewController.swift in Sources */,
-				2CB9BF1321B84C3A00700013 /* StartController.swift in Sources */,
-				2C5F1ECF21B9A36600F2C147 /* StartViewModel.swift in Sources */,
+				2CB9BF1321B84C3A00700013 /* TakePhotoController.swift in Sources */,
+				2C5F1ECF21B9A36600F2C147 /* TakePhotoViewModel.swift in Sources */,
+				2F19E3282423F6880012B848 /* FeatureCell.swift in Sources */,
 				2CDD95CD21BD122400614B53 /* SectionHeaderView.swift in Sources */,
 				2C5F1ED721BC2BCA00F2C147 /* OnboardingController.swift in Sources */,
 				2C5F1ED121B9A4A700F2C147 /* PrefoCell.swift in Sources */,
